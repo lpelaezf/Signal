@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<!--    Paddings-->
+    <dimen name="tiny_padding">4dp</dimen>
+    <dimen name="small_padding">8dp</dimen>
+    <dimen name="medium_padding">12dp</dimen>
+    <dimen name="large_padding">16dp</dimen>
+    <dimen name="xlarge_padding">20dp</dimen>
+
+<!--    Sizes-->
+    <dimen name="card_height">92dp</dimen>
+    <dimen name="card_border">2dp</dimen>
+    <dimen name="thumbnail_width">120dp</dimen>
+    <dimen name="spacer_between_statistics_icons">20dp</dimen>
+</resources>

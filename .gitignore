@@ -1,0 +1,65 @@
+# ================================
+# Android / Gradle
+# ================================
+
+*.iml
+.gradle/
+.kotlin/
+**/build/
+build/
+
+# Local configuration
+local.properties
+
+# Generated files
+/bin/
+/gen/
+/out/
+
+# Native build
+.externalNativeBuild/
+.cxx/
+
+# Capture files
+/captures/
+
+# ================================
+# Android Studio / IntelliJ
+# ================================
+
+.idea/
+.idea/caches
+.idea/libraries
+.idea/modules.xml
+.idea/workspace.xml
+.idea/navEditor.xml
+.idea/assetWizardSettings.xml
+.idea/caches/build_file_checksums.ser
+
+# ================================
+# Signing / Keystore
+# ================================
+
+*.jks
+*.keystore
+
+# ================================
+# Build outputs
+# ================================
+
+*.apk
+*.ap_
+*.aab
+
+# ================================
+# Logs
+# ================================
+
+*.log
+
+# ================================
+# OS generated files
+# ================================
+
+.DS_Store
+Thumbs.db

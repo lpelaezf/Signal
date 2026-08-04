@@ -1,0 +1,41 @@
+<resources>
+<!--    Others-->
+    <string name="app_name" translatable="false">Signal</string>
+    <string name="signals_found">Find the signal for</string>
+    <string name="selected_amount">%d selected</string>
+    <string name="signature">Shared by Signal</string>
+
+<!--    Labels-->
+    <string name="provide_the_link">Provide the link</string>
+    <string name="provide_link_text_field">Youtube link.</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="accept">Accept</string>
+    <string name="cancel">Cancel</string>
+    <string name="share_this_signal_with">Share this signal with:</string>
+
+
+<!--    Error Messages-->
+    <string name="message_error_blank_text_field">Empty text field</string>
+    <string name="message_error_youtube_link">Invalid YouTube link</string>
+    <string name="message_error_invalid_url">Invalid URL</string>
+    <string name="message_error_share_app_not_found">No sharing app was found</string>
+    <string name="message_error_no_signal_yet">No Signal has been found for this video, or it does not yet have any comments</string>
+    <string name="message_error_service">The service is currently unavailable. Please try again later</string>
+    <string name="message_error_no_internet">No internet connection</string>
+    <string name="message_error_no_video">The requested video could not be found</string>
+    <string name="message_error_no_comment">The video was found; however, it contained no comments</string>
+    <string name="message_error_quota">The service has reached its daily usage limit. Please try again tomorrow.</string>
+    <string name="message_error_signal_could_not_be_generated">The video and its comments were found, but the Signal could not be generated. Please contact the developer.</string>
+
+
+<!--    Content Descriptions-->
+    <string name="delete_button">Delete Button</string>
+    <string name="add_action_button">Add Action Button</string>
+    <string name="video_thumbnail">Video Thumbnail</string>
+    <string name="view_icon">View Icon</string>
+    <string name="like_icon">Like Icon</string>
+    <string name="comments_icon">Comments Icon</string>
+    <string name="up_navigation_button">Up Navigation Button</string>
+    <string name="share_button">Share Button</string>
+
+</resources>
