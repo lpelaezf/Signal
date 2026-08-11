@@ -156,14 +156,33 @@ class SignalRepo @Inject constructor(
      */
     private suspend fun fetchSignal(comments: List<VideoComment>): String {
         val promptDefault = """
-            Analyze the video's comments and provide a clear, concise summary of the
-            overall opinion. Highlight only the most frequently mentioned ideas, the
-            predominant sentiment, and any significant disagreements.
-            Avoid repeating information or referring to individual comments.
+            Analyze the video's comments and tell the user what the community is saying as if you
+            were sharing an interesting piece of gossip with a friend.
+
+            Keep the response natural, conversational, expressive, and engaging. It should feel
+            like someone genuinely telling you "here's what's going on in these comments", not
+            like a formal report, academic analysis, or structured summary.
+
+            Focus only on the most frequently mentioned ideas, the predominant sentiment, and
+            any significant disagreements. When there are opposing sides, describe the tension
+            between them naturally, as part of the story.
+
+            Use relevant emojis throughout the response to add personality and make it more
+            visually engaging, but keep them natural rather than forcing them into a rigid
+            structure.
+
+            Do not use fixed section titles or a predefined response structure. Let the
+            organization of the response adapt naturally to what is interesting about the
+            comments.
+
+            Return plain text only. Do not use Markdown or formatting syntax such as asterisks
+            (*), hashtags (#), underscores (_), or backticks (`).
+
+            Do not repeat information or refer to individual comments.
             Limit the response to a maximum of 150 words.
         """.trimIndent()
         
-        val userLanguage = "Answer in ${Locale.getDefault().displayLanguage} "
+        val userLanguage = "Answer in ${Locale.getDefault().displayLanguage}"
         val promptFinal = userLanguage + promptDefault + Json.encodeToString(comments)
 
         val request = GeminiRequest(
