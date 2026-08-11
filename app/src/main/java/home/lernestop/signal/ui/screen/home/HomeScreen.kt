@@ -147,7 +147,9 @@ fun HomeScreenContent(
                                 .animateItem(
                                     fadeInSpec = tween(durationMillis = 250),
                                     fadeOutSpec = tween(durationMillis = 500),
-                                    placementSpec = spring(stiffness = Spring.StiffnessLow, dampingRatio = Spring.DampingRatioMediumBouncy)
+                                    placementSpec = spring(
+                                        stiffness = Spring.StiffnessLow,
+                                        dampingRatio = Spring.DampingRatioLowBouncy)
                                 )
                         )
                     }
