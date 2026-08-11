@@ -1,5 +1,8 @@
 package home.lernestop.signal.ui.screen.home
 
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
@@ -140,6 +143,11 @@ fun HomeScreenContent(
                                     onLongClick = {
                                         onEvent(HomeUiEvents.OnLongClick(item.id))
                                     }
+                                )
+                                .animateItem(
+                                    fadeInSpec = tween(durationMillis = 250),
+                                    fadeOutSpec = tween(durationMillis = 500),
+                                    placementSpec = spring(stiffness = Spring.StiffnessLow, dampingRatio = Spring.DampingRatioMediumBouncy)
                                 )
                         )
                     }
