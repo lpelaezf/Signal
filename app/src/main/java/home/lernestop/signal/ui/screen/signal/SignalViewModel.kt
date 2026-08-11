@@ -7,7 +7,7 @@ import androidx.navigation.toRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import home.lernestop.signal.data.local.projection.VideoSummaryWithSignal
 import home.lernestop.signal.data.repo.SignalRepo
-import home.lernestop.signal.navigation.SignalRoute
+import home.lernestop.signal.ui.navigation.SignalRoute
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update

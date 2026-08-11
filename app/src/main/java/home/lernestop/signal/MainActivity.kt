@@ -7,8 +7,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
-import home.lernestop.signal.navigation.AppNavigation
-import home.lernestop.signal.navigation.ExternalIntentViewModel
+import home.lernestop.signal.ui.navigation.AppNavigation
+import home.lernestop.signal.ui.navigation.ExternalIntentViewModel
 import home.lernestop.signal.ui.theme.SignalTheme
 
 @AndroidEntryPoint

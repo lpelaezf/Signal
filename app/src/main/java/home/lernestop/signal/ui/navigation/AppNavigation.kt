@@ -1,4 +1,4 @@
-package home.lernestop.signal.navigation
+package home.lernestop.signal.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect

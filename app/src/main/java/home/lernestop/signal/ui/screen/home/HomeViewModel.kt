@@ -18,7 +18,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import home.lernestop.signal.core.exception.SignalException
 import home.lernestop.signal.data.repo.SignalRepo
-import home.lernestop.signal.navigation.StartRoute
+import home.lernestop.signal.ui.navigation.StartRoute
 import home.lernestop.signal.ui.mapper.toVideoUi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
