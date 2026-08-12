@@ -18,7 +18,7 @@ interface YouTubeApiService {
                 id,
                 snippet(
                     title,
-                    thumbnails/default/url,
+                    thumbnails,
                     channelTitle
                 ),
                 statistics(

@@ -23,11 +23,13 @@ data class VideoSnippet(
 
 @Serializable
 data class Thumbnail(
-    val default: ThumbnailDefaultUrl? = null,
+    val default: ThumbnailUrl? = null,
+    val medium: ThumbnailUrl? = null,
+    val high: ThumbnailUrl? = null,
 )
 
 @Serializable
-data class ThumbnailDefaultUrl(
+data class ThumbnailUrl(
     val url: String? = null,
 )
 
