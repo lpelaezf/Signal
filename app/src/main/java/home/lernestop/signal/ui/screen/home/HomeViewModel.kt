@@ -1,13 +1,9 @@
 package home.lernestop.signal.ui.screen.home
 
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import androidx.core.util.PatternsCompat
 import androidx.lifecycle.SavedStateHandle
@@ -15,11 +11,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import home.lernestop.signal.core.exception.SignalException
 import home.lernestop.signal.data.repo.SignalRepo
-import home.lernestop.signal.ui.navigation.StartRoute
 import home.lernestop.signal.ui.mapper.toVideoUi
+import home.lernestop.signal.ui.navigation.StartRoute
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -32,7 +27,6 @@ const val TAG_VIEW_MODEL = "MainViewModel"
 class HomeViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val repo: SignalRepo,
-    @param:ApplicationContext private val context: Context,
 ) : ViewModel() {
 
     // --- 1. STATE ---
@@ -67,9 +61,7 @@ class HomeViewModel @Inject constructor(
 
     // -- Link Dialog --
     private fun onAdd() {
-        if (checkInternetStatus()) {
-            showDialog()
-        } else updateNetErrors(NetErrors.Internet)
+        showDialog()
     }
 
     private fun onInputUpdate(newValue: String) {
@@ -214,28 +206,6 @@ class HomeViewModel @Inject constructor(
 
             else -> ""
         }
-    }
-
-    /**
-     * Checks if the device has an active and validated internet connection.
-     * 
-     * @return True if internet is available and validated, false otherwise.
-     */
-    private fun checkInternetStatus(): Boolean {
-        val connectivityManager = context.getSystemService<ConnectivityManager>()
-
-        val network = connectivityManager?.activeNetwork
-        val capabilities = connectivityManager?.getNetworkCapabilities(network)
-
-        val hasInternet = capabilities?.hasCapability(
-            NetworkCapabilities.NET_CAPABILITY_INTERNET
-        ) == true
-
-        val hasValidatedInternet = capabilities?.hasCapability(
-            NetworkCapabilities.NET_CAPABILITY_VALIDATED
-        ) == true
-
-        return hasInternet && hasValidatedInternet
     }
 
     // -- Error Handling --
