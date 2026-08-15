@@ -19,7 +19,15 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.LocalTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.plus
+import kotlinx.datetime.toInstant
+import kotlinx.datetime.toLocalDateTime
 import javax.inject.Inject
+import kotlin.time.Clock
 
 const val TAG_VIEW_MODEL = "MainViewModel"
 
@@ -216,11 +224,27 @@ class HomeViewModel @Inject constructor(
             is SignalException.NetworkException -> NetErrors.Internet
             is SignalException.CommentException -> NetErrors.Comment
             is SignalException.GenerateInteractionException -> NetErrors.Interaction
-            is SignalException.QuotaExceededException -> NetErrors.Quota
+            is SignalException.QuotaExceededException -> NetErrors.Quota(determinateNextQuotaReset())
             else -> NetErrors.None
         }
         updateNetErrors(error)
         Log.e(TAG_VIEW_MODEL, e.message, e)
+    }
+
+    private fun determinateNextQuotaReset(): String {
+        val currentTimezone = TimeZone.currentSystemDefault()
+        val usPacificTimeZone = TimeZone.of("America/Los_Angeles")
+
+        val nextPacificDate = Clock.System.now()
+            .toLocalDateTime(usPacificTimeZone)
+            .date
+            .plus(1, DateTimeUnit.DAY)
+
+        val nextQuotaReset = LocalDateTime(nextPacificDate, LocalTime(0, 0))
+            .toInstant(usPacificTimeZone)
+            .toLocalDateTime(currentTimezone)
+
+        return nextQuotaReset.toString()
     }
 
     private fun resetNetError() {

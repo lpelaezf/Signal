@@ -24,7 +24,7 @@
     <string name="message_error_no_internet">No internet connection</string>
     <string name="message_error_no_video">The requested video could not be found</string>
     <string name="message_error_no_comment">The video was found; however, it contained no comments</string>
-    <string name="message_error_quota">The service has reached its daily usage limit. Please try again tomorrow.</string>
+    <string name="message_error_quota">The service has reached its daily usage limit. Please come back after %s.</string>
     <string name="message_error_signal_could_not_be_generated">The video and its comments were found, but the Signal could not be generated. Please contact the developer.</string>
 
 

@@ -16,12 +16,12 @@ sealed class NetErrors {
     data object Video: NetErrors()
     data object Comment: NetErrors()
     data object Interaction: NetErrors()
-    data object Quota: NetErrors()
+    data class Quota(val nextReset: String): NetErrors()
 }
 
 sealed class Navigation {
     data object Stay: Navigation()
-    data class ToSignalScreen(val videoId: String,): Navigation()
+    data class ToSignalScreen(val videoId: String): Navigation()
 }
 
 enum class CheckBoxState{ALL, NONE, INDETERMINATE}

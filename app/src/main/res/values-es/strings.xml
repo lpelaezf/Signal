@@ -28,5 +28,5 @@
     <string name="message_error_no_internet">No hay internet</string>
     <string name="message_error_no_video">El video solicitado no puedo ser encontrado.</string>
     <string name="message_error_no_comment">El video fue encontrado, sin embargo este no contenía comentarios o los mismos no pudieron ser recuperados</string>
-    <string name="message_error_quota">Se ha excedido la cuota diaria. Por favor intente de nuevo mañana</string>
+    <string name="message_error_quota">Se ha excedido la cuota diaria. Por regrese después de %s</string>
 </resources>

@@ -549,8 +549,8 @@ fun ContentDialogErrorMessage(
                     TextDialogError(stringResource(R.string.message_error_signal_could_not_be_generated))
                 }
 
-                NetErrors.Quota -> {
-                    TextDialogError(stringResource(R.string.message_error_quota))
+                is NetErrors.Quota -> {
+                    TextDialogError(stringResource(R.string.message_error_quota, error.nextReset))
                 }
 
                 NetErrors.None -> { /*No error*/}
