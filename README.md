@@ -20,13 +20,13 @@ The application is also useful for content creators who want to understand audie
 
 # Features
 
-- Analyze any public YouTube video.
+- Analyze public YouTube videos.
 - AI-powered summaries generated with Gemini.
 - Retrieves up to **100 comments sorted by relevance**, prioritizing meaningful discussions over sheer quantity.
 - Automatically generates summaries in the device's language.
+- Analyze videos directly from YouTube through Android's Share menu.
 - Saves every analysis locally for future reference.
 - Share generated summaries with any compatible application.
-- Seamless integration with Android's Share menu.
 - Modern Material Design 3 interface built with Jetpack Compose.
 
 ---
@@ -147,11 +147,12 @@ GEMINI_API_KEY=YOUR_GEMINI_API_KEY
 # Roadmap
 
 - Custom AI prompts.
-- Multiple summary styles.
-- Sentiment visualization.
-- Keyword extraction.
-- Improved sharing capabilities.
-- Additional language enhancements.
+- Periodic video statistics updates.
+- First-use video tutorial.
+- Direct access to the original YouTube video.
+- Regenerate analyses with or without a custom prompt.
+- Analysis freshness based on comment count.
+- Unit and instrumentation testing for core functionality.
 
 ---
 
