@@ -37,5 +37,6 @@
     <string name="comments_icon">Comments Icon</string>
     <string name="up_navigation_button">Up Navigation Button</string>
     <string name="share_button">Share Button</string>
+    <string name="go_to_video_icon">Go to video icon</string>
 
 </resources>

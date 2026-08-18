@@ -1,5 +1,9 @@
 package home.lernestop.signal.ui.screen.home
 
+import android.content.ActivityNotFoundException
+import android.content.Context
+import android.content.Intent
+import android.util.Log
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
@@ -9,6 +13,7 @@ import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -16,6 +21,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -52,13 +58,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.core.net.toUri
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import home.lernestop.signal.R
+import home.lernestop.signal.core.extension.showToast
 import home.lernestop.signal.ui.model.VideoCard
 import home.lernestop.signal.ui.theme.SignalTheme
+
+const val TAG_HOME_SCREEN = "HomeScreen"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -149,7 +159,8 @@ fun HomeScreenContent(
                                     fadeOutSpec = tween(durationMillis = 500),
                                     placementSpec = spring(
                                         stiffness = Spring.StiffnessLow,
-                                        dampingRatio = Spring.DampingRatioLowBouncy)
+                                        dampingRatio = Spring.DampingRatioLowBouncy
+                                    )
                                 )
                         )
                     }
@@ -266,7 +277,10 @@ fun CardItem(
                 color = MaterialTheme.colorScheme.primary)
         } else null,
         modifier = modifier) {
-        Row{
+
+        Row(
+            modifier = Modifier.height(IntrinsicSize.Max)
+        ) {
             AsyncImage(
                 model = ImageRequest.Builder(context = LocalContext.current)
                     .data(videoCard.thumbnail)
@@ -301,30 +315,51 @@ fun DescriptionView(
     videoCard: VideoCard,
     modifier: Modifier = Modifier) {
 
-    Column (modifier = modifier, verticalArrangement = Arrangement.SpaceBetween) {
-        Text(
-            text = videoCard.title,
-            style = MaterialTheme.typography.bodyLarge,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            fontWeight = FontWeight.SemiBold
-        )
+    val context = LocalContext.current
 
-        Text(
-            text = videoCard.creator,
-            style = MaterialTheme.typography.labelMedium,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis
-        )
-         StatisticsRow(
-             views = videoCard.viewsCount,
-             likes = videoCard.likesCount,
-             commentsAmount = videoCard.commentsCount,
-             modifier = Modifier
-                 .fillMaxWidth()
-                 .padding(
-                     top = dimensionResource(R.dimen.small_padding)
-                 ))
+    Box(modifier = modifier) {
+        Column (
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.SpaceBetween) {
+
+            Text(
+                text = videoCard.title,
+                style = MaterialTheme.typography.bodyLarge,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                fontWeight = FontWeight.SemiBold
+            )
+
+            Text(
+                text = videoCard.creator,
+                style = MaterialTheme.typography.labelMedium,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+
+            StatisticsRow(
+                views = videoCard.viewsCount,
+                likes = videoCard.likesCount,
+                commentsAmount = videoCard.commentsCount,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        top = dimensionResource(R.dimen.small_padding)
+                    ))
+        }
+
+        FloatingActionButton(
+            onClick = { goToVideo(context, videoCard.id) },
+            modifier = Modifier
+                .size(24.dp)
+                .align(Alignment.CenterEnd)
+        ) {
+            Icon(
+                painter = painterResource(R.drawable.ic_video_search),
+                contentDescription = stringResource(R.string.go_to_video_icon),
+                modifier = Modifier.size(16.dp)
+            )
+        }
     }
 }
 
@@ -413,7 +448,8 @@ fun ContentRequestLinkDialog(
     onValueChange: (String) -> Unit,
     textFieldErrors: TextFieldErrors,
     onAccept: () -> Unit,
-    modifier: Modifier = Modifier, ) {
+    modifier: Modifier = Modifier,
+) {
     Card( modifier = modifier) {
         Column(
             modifier = Modifier
@@ -576,6 +612,18 @@ fun TextDialogError(message: String) {
     )
 }
 
+private fun goToVideo(context: Context, videoId: String) {
+    val urlYoutube = "https://youtu.be/$videoId"
+    val watchVideoIntent = Intent(Intent.ACTION_VIEW, urlYoutube.toUri())
+
+    try {
+        context.startActivity(watchVideoIntent)
+    } catch (e: ActivityNotFoundException) {
+        Log.e(TAG_HOME_SCREEN,"No sharing app was found", e)
+        context.showToast(R.string.message_error_share_app_not_found)
+    }
+}
+
 @Preview
 @Composable
 private fun CardItemPreview() {
@@ -591,8 +639,7 @@ private fun CardItemPreview() {
         ),
         isSelected = null,
         Modifier
-            .fillMaxWidth()
-            .height(90.dp))
+            .fillMaxWidth())
 }
 
 @Preview
