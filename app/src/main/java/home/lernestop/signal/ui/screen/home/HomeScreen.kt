@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -27,6 +28,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -300,10 +302,8 @@ fun CardItem(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(
-                        start = dimensionResource(R.dimen.small_padding),
-                        top = dimensionResource(R.dimen.small_padding),
-                        end = dimensionResource(R.dimen.tiny_padding),
-                        bottom = dimensionResource(R.dimen.tiny_padding),
+                        horizontal = dimensionResource(R.dimen.small_padding),
+                        vertical = dimensionResource(R.dimen.tiny_padding)
                     )
             )
         }
@@ -456,7 +456,7 @@ fun ContentRequestLinkDialog(
                 .fillMaxWidth()
                 .padding(dimensionResource(R.dimen.small_padding)),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.SpaceAround
         ) {
             Text(
                 text = stringResource(R.string.provide_the_link),
@@ -466,36 +466,14 @@ fun ContentRequestLinkDialog(
                 modifier = Modifier.padding(dimensionResource(R.dimen.tiny_padding))
             )
 
-            OutlinedTextField(
-                value = newValue,
+            BodyRequestLinkDialog(
+                newValue = newValue,
                 onValueChange = onValueChange,
-                label = {Text(text = stringResource(R.string.provide_link_text_field))},
-                singleLine = true,
-                isError = textFieldErrors !is TextFieldErrors.None,
-                supportingText = {
-                    when(textFieldErrors) {
-                        TextFieldErrors.Blank -> {
-                            Text(text = stringResource(R.string.message_error_blank_text_field))
-                        }
-
-                        TextFieldErrors.YoutubeLink -> {
-                            Text(text = stringResource(R.string.message_error_youtube_link))
-                        }
-
-                        TextFieldErrors.Url -> {
-                            Text(text = stringResource(R.string.message_error_invalid_url))
-                        }
-
-                        TextFieldErrors.None -> {/* Nothing happens */}
-                    }
-                },
-                keyboardOptions = KeyboardOptions.Default.copy(
-                    imeAction = ImeAction.Search
-                ),
-                keyboardActions = KeyboardActions(
-                    onSearch = { onAccept() }
-                ),
-                modifier = Modifier.padding(dimensionResource(R.dimen.xlarge_padding))
+                textFieldErrors = textFieldErrors,
+                onAccept = onAccept,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = dimensionResource(R.dimen.medium_padding))
             )
 
             Row(
@@ -514,6 +492,61 @@ fun ContentRequestLinkDialog(
                 }
             }
 
+        }
+    }
+}
+
+@Composable
+fun BodyRequestLinkDialog(
+    newValue: String,
+    onValueChange: (String) -> Unit,
+    textFieldErrors: TextFieldErrors,
+    onAccept: () -> Unit,
+    modifier: Modifier = Modifier) {
+
+    val context = LocalContext.current
+
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier
+    ) {
+        OutlinedTextField(
+            value = newValue,
+            onValueChange = onValueChange,
+            label = {Text(text = stringResource(R.string.provide_link_text_field))},
+            singleLine = true,
+            isError = textFieldErrors !is TextFieldErrors.None,
+            supportingText = if (textFieldErrors !is TextFieldErrors.None) {
+                {
+                    val errorMsg = when (textFieldErrors) {
+                        TextFieldErrors.Blank -> R.string.message_error_blank_text_field
+                        TextFieldErrors.YoutubeLink -> R.string.message_error_youtube_link
+                        else -> R.string.message_error_invalid_url
+                    }
+                    Text(stringResource(errorMsg))
+                }
+            } else null,
+            keyboardOptions = KeyboardOptions.Default.copy(
+                imeAction = ImeAction.Search
+            ),
+            keyboardActions = KeyboardActions(
+                onSearch = { onAccept() }
+            ),
+            modifier = Modifier.padding(
+                start = dimensionResource(R.dimen.xlarge_padding),
+                end = dimensionResource(R.dimen.xlarge_padding),
+                bottom = dimensionResource(R.dimen.tiny_padding))
+        )
+
+        Button(
+            onClick = { goToVideo(context) },
+            contentPadding = PaddingValues(
+                vertical = dimensionResource(R.dimen.button_narrow_content_padding_vertical),
+                horizontal = dimensionResource(R.dimen.button_narrow_content_padding_horizontal)),
+            modifier = Modifier.height(dimensionResource(R.dimen.button_narrow_height))
+        ) {
+            Text(stringResource(R.string.open_youtube))
         }
     }
 }
@@ -564,32 +597,17 @@ fun ContentDialogErrorMessage(
                 .fillMaxWidth()
                 .padding(dimensionResource(R.dimen.small_padding))
         ) {
-            when(error) {
-                NetErrors.Service -> {
-                    TextDialogError(stringResource(R.string.message_error_service))
+            if (error != NetErrors.None) {
+                val message = when (error) {
+                    NetErrors.Service -> stringResource(R.string.message_error_service)
+                    NetErrors.Internet -> stringResource(R.string.message_error_no_internet)
+                    NetErrors.Video -> stringResource(R.string.message_error_no_video)
+                    NetErrors.Comment -> stringResource(R.string.message_error_no_comment)
+                    NetErrors.Interaction -> stringResource(R.string.message_error_signal_could_not_be_generated)
+                    is NetErrors.Quota -> stringResource(R.string.message_error_quota, error.nextReset)
+                    NetErrors.None -> ""
                 }
-
-                NetErrors.Internet -> {
-                    TextDialogError(stringResource(R.string.message_error_no_internet))
-                }
-
-                NetErrors.Video -> {
-                    TextDialogError(stringResource(R.string.message_error_no_video))
-                }
-
-                NetErrors.Comment -> {
-                    TextDialogError(stringResource(R.string.message_error_no_comment))
-                }
-
-                NetErrors.Interaction -> {
-                    TextDialogError(stringResource(R.string.message_error_signal_could_not_be_generated))
-                }
-
-                is NetErrors.Quota -> {
-                    TextDialogError(stringResource(R.string.message_error_quota, error.nextReset))
-                }
-
-                NetErrors.None -> { /*No error*/}
+                TextDialogError(message)
             }
 
             Row(
@@ -612,8 +630,8 @@ fun TextDialogError(message: String) {
     )
 }
 
-private fun goToVideo(context: Context, videoId: String) {
-    val urlYoutube = "https://youtu.be/$videoId"
+private fun goToVideo(context: Context, videoId: String? = null) {
+    val urlYoutube = if (videoId != null) "https://youtu.be/$videoId" else "https://www.youtube.com/"
     val watchVideoIntent = Intent(Intent.ACTION_VIEW, urlYoutube.toUri())
 
     try {

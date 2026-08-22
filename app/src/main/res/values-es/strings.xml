@@ -7,6 +7,7 @@
     <string name="dismiss">Descartar</string>
     <string name="accept">Aceptar</string>
     <string name="cancel">Cancelar</string>
+    <string name="open_youtube">Abrir Youtube</string>
     <string name="message_error_blank_text_field">Campo de texto vacío</string>
     <string name="message_error_youtube_link">Enlace de Youtube no válido</string>
     <string name="message_error_invalid_url">URL no válida</string>
