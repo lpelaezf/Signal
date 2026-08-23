@@ -14,7 +14,7 @@
     <string name="message_error_share_app_not_found">No se encontraron aplicaciones para compartir</string>
     <string name="signature">Compartido por Signal</string>
     <string name="share_this_signal_with">Compartir esta señel con:</string>
-    <string name="message_error_no_signal_yet">No se ha encontrado una Señal para este video o este no contenía comnetarios</string>
+    <string name="message_error_no_signal_yet">No se ha encontrado una Señal para este video o este no contenía comentarios</string>
     <string name="message_error_signal_could_not_be_generated">El video y sus comentarios fueron encontrados, pero no se pudo generar la Señal. Por favor contacte al desarrollador</string>
     <string name="delete_button">Botón de borrar</string>
     <string name="add_action_button">Botón de acción para agregar</string>
