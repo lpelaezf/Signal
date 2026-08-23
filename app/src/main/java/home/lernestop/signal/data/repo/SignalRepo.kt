@@ -182,10 +182,11 @@ class SignalRepo @Inject constructor(
             Limit the response to a maximum of 150 words.
             
             At the end of the response, add a short natural phrase indicating that the analysis
-            was based on $commentCount comments. Write this phrase in the same language as the
-            response and use the grammatically correct singular or plural form for that language
-            based on the comment count. Format the comment count using spaces as the thousands
-            separator. Do not use commas or periods to separate digits.
+            was based on the most relevant comments from a total of $commentCount comments.
+            Write this phrase in the same language as the response and use the grammatically
+            correct singular or plural form for that language based on the comment count.
+            Format the comment count using spaces as the thousands separator. Do not use commas
+            or periods to separate digits.
         """.trimIndent()
         
         val userLanguage = "Answer in ${Locale.getDefault().displayLanguage}"
