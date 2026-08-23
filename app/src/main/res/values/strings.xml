@@ -2,7 +2,6 @@
 <!--    Others-->
     <string name="app_name" translatable="false">Signal</string>
     <string name="signals_found">Find the signal for</string>
-    <string name="selected_amount">%d selected</string>
     <string name="signature">Shared by Signal</string>
 
 <!--    Labels-->
@@ -40,4 +39,9 @@
     <string name="share_button">Share Button</string>
     <string name="go_to_video_icon">Go to video icon</string>
 
+<!--    Plurals-->
+    <plurals name="selected_amount">
+        <item quantity="one">%d selected</item>
+        <item quantity="other">%d selected</item>
+    </plurals>
 </resources>

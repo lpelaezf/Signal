@@ -52,7 +52,7 @@ class SignalRepo @Inject constructor(
         try {
             if (commentCount > 0) {
                 val comments = fetchComments(videoId)
-                signal = if (comments.isNotEmpty()) fetchSignal(comments)
+                signal = if (comments.isNotEmpty()) fetchSignal(comments, commentCount)
                 else {
                     throw SignalException.ResourceNotFoundException(
                         "Could not retrieve the comments"
@@ -154,7 +154,7 @@ class SignalRepo @Inject constructor(
      * @return A string containing the generated signal/summary.
      * @throws SignalException.GenerateInteractionException if AI generation fails.
      */
-    private suspend fun fetchSignal(comments: List<VideoComment>): String {
+    private suspend fun fetchSignal(comments: List<VideoComment>, commentCount: Long): String {
         val promptDefault = """
             Analyze the video's comments and tell the user what the community is saying as if you
             were sharing an interesting piece of gossip with a friend.
@@ -180,6 +180,12 @@ class SignalRepo @Inject constructor(
 
             Do not repeat information or refer to individual comments.
             Limit the response to a maximum of 150 words.
+            
+            At the end of the response, add a short natural phrase indicating that the analysis
+            was based on $commentCount comments. Write this phrase in the same language as the
+            response and use the grammatically correct singular or plural form for that language
+            based on the comment count. Format the comment count using spaces as the thousands
+            separator. Do not use commas or periods to separate digits.
         """.trimIndent()
         
         val userLanguage = "Answer in ${Locale.getDefault().displayLanguage}"

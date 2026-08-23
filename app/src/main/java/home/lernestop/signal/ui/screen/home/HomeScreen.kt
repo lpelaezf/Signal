@@ -51,6 +51,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.text.font.FontWeight
@@ -255,7 +256,11 @@ fun SelectionModeTopAppBar(
                     onClick = onCheckedChange,
                 )
 
-                Text(stringResource(R.string.selected_amount, selectedAmount))
+                Text(
+                    pluralStringResource(
+                        R.plurals.selected_amount,
+                        selectedAmount,
+                        selectedAmount))
             }
         },
         actions = {

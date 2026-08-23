@@ -12,11 +12,10 @@
     <string name="message_error_youtube_link">Enlace de Youtube no válido</string>
     <string name="message_error_invalid_url">URL no válida</string>
     <string name="message_error_share_app_not_found">No se encontraron aplicaciones para compartir</string>
-    <string name="selected_amount">%d seleccionado</string>
     <string name="signature">Compartido por Signal</string>
     <string name="share_this_signal_with">Compartir esta señel con:</string>
     <string name="message_error_no_signal_yet">No se ha encontrado una Señal para este video o este no contenía comnetarios</string>
-    <string name="message_error_signal_could_not_be_generated">El video y sus comentarios fueron encontrados pero no se pudo generar la Señal. Por favor contacte al desarrollador</string>
+    <string name="message_error_signal_could_not_be_generated">El video y sus comentarios fueron encontrados, pero no se pudo generar la Señal. Por favor contacte al desarrollador</string>
     <string name="delete_button">Botón de borrar</string>
     <string name="add_action_button">Botón de acción para agregar</string>
     <string name="video_thumbnail">Miniatura del video</string>
@@ -28,7 +27,12 @@
     <string name="message_error_service">El servicio no está disponible. Por favor intente más tarde</string>
     <string name="message_error_no_internet">No hay internet</string>
     <string name="message_error_no_video">El video solicitado no puedo ser encontrado.</string>
-    <string name="message_error_no_comment">El video fue encontrado, sin embargo este no contenía comentarios o los mismos no pudieron ser recuperados</string>
+    <string name="message_error_no_comment">El video fue encontrado; sin embargo, este no contenía comentarios o los mismos no pudieron ser recuperados</string>
     <string name="message_error_quota">Se ha excedido la cuota diaria. Por regrese después de %s</string>
     <string name="go_to_video_icon">Ícono ir al video</string>
+    <plurals name="selected_amount">
+        <item quantity="one">%d seleccionado</item>
+        <item quantity="other">%d seleccionados</item>
+        <item quantity="many">%d seleccionados</item>
+    </plurals>
 </resources>
