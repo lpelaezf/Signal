@@ -8,6 +8,7 @@ import home.lernestop.signal.data.local.projection.VideoSummaryWithStatistics
 import home.lernestop.signal.data.mapper.toStringResponse
 import home.lernestop.signal.data.mapper.toVideoComment
 import home.lernestop.signal.data.mapper.toVideoEntity
+import home.lernestop.signal.data.mapper.toVideoStatisticsUpdate
 import home.lernestop.signal.data.model.VideoComment
 import home.lernestop.signal.data.remote.api.GeminiApiService
 import home.lernestop.signal.data.remote.api.YouTubeApiService
@@ -43,8 +44,11 @@ class SignalRepo @Inject constructor(
      * @throws SignalException if any step in the process fails.
      */
     suspend fun findVideo(videoId: String) {
+        val videos = fetchVideos(listOf(videoId))
 
-        val video = fetchVideo(videoId)
+        val video = videos.firstOrNull() ?: throw SignalException.ResourceNotFoundException(
+            "There was a problem with video resource, items[]")
+
         var signal: String? = null
 
         val commentCount = video.statistics?.commentCount?.toLongOrNull() ?: 0L
@@ -75,23 +79,23 @@ class SignalRepo @Inject constructor(
     /**
      * Fetches video metadata from the YouTube API.
      * 
-     * @param videoId The YouTube video ID.
+     * @param videoIds The YouTube video ID.
      * @return A [VideoDto] containing video details.
      * @throws SignalException.VideoNotFoundException if the video doesn't exist.
      * @throws SignalException.QuotaExceededException if API quota is reached.
      */
-    private suspend fun fetchVideo(videoId: String): VideoDto {
+    private suspend fun fetchVideos(videoIds: List<String>): List<VideoDto> {
 
         try {
-            val response = youTubeApiService.getVideo(videoId)
+            val response = youTubeApiService.getVideos(videoIds)
 
-            val items = response.items ?: throw SignalException.ItemsNotFoundException(
+            return response.items ?: throw SignalException.ItemsNotFoundException(
                 "Could not retrieve the items[] property from videos"
             )
 
-            return items.firstOrNull() ?: throw SignalException.ResourceNotFoundException(
+            /*return items.firstOrNull() ?: throw SignalException.ResourceNotFoundException(
                 "There was a problem with video resource, items[]"
-            )
+            )*/
         } catch (e: SignalException) {
             throw SignalException.VideoNotFoundException(e.message.orEmpty())
 
@@ -117,7 +121,6 @@ class SignalRepo @Inject constructor(
         } catch (e: IOException) {
             throw SignalException.NetworkException(e.message.orEmpty())
         }
-
     }
 
     /**
@@ -231,5 +234,22 @@ class SignalRepo @Inject constructor(
 
     private suspend fun insertVideo(videoEntity: VideoEntity) {
         videoDao.insertVideo(videoEntity)
+    }
+
+    suspend fun syncVideoStatistics() {
+        val videoIds = videoDao.getAllVideoIds()
+        val videos = fetchVideos(videoIds)
+        if (videos.isEmpty()) {
+            throw SignalException.ItemsNotFoundException(
+                "Could not retrieve the items[] property from videos"
+            )
+        }
+        val videoStatisticsUpdates = videos.map { it.toVideoStatisticsUpdate() }
+
+        videoDao.updateVideoStatistics(videoStatisticsUpdates)
+    }
+
+    private fun schedulePeriodicStatisticsSync() {
+
     }
 }

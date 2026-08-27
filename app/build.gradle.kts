@@ -79,6 +79,10 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     implementation(libs.hilt.navigation.compose)
+    implementation(libs.hilt.work)
+
+    // WorkManager
+    implementation(libs.androidx.work.runtime.ktx)
 
     // Coil
     implementation(libs.coil.compose)

@@ -9,8 +9,8 @@ import retrofit2.http.Query
 interface YouTubeApiService {
 
     @GET("videos")
-    suspend fun getVideo(
-        @Query("id") videoId: String,
+    suspend fun getVideos(
+        @Query("id") videoId: List<String>,
         @Query("key") apiKey: String = BuildConfig.YOUTUBE_API_KEY,
         @Query("part") part: String = "id,snippet,statistics",
         @Query("fields") fields: String = """
@@ -21,6 +21,23 @@ interface YouTubeApiService {
                     thumbnails,
                     channelTitle
                 ),
+                statistics(
+                    viewCount,
+                    likeCount,
+                    commentCount
+                )
+            )
+        """.filterNot(Char::isWhitespace)
+    ): VideoListResponse
+
+    @GET("videos")
+    suspend fun getVideoStatistics(
+        @Query("id") videoId: String,
+        @Query("key") apiKey: String = BuildConfig.YOUTUBE_API_KEY,
+        @Query("part") part: String = "id,statistics",
+        @Query("fields") fields: String = """
+            items(
+                id,
                 statistics(
                     viewCount,
                     likeCount,
