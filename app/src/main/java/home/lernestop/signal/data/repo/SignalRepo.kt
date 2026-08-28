@@ -92,10 +92,6 @@ class SignalRepo @Inject constructor(
             return response.items ?: throw SignalException.ItemsNotFoundException(
                 "Could not retrieve the items[] property from videos"
             )
-
-            /*return items.firstOrNull() ?: throw SignalException.ResourceNotFoundException(
-                "There was a problem with video resource, items[]"
-            )*/
         } catch (e: SignalException) {
             throw SignalException.VideoNotFoundException(e.message.orEmpty())
 
@@ -247,9 +243,5 @@ class SignalRepo @Inject constructor(
         val videoStatisticsUpdates = videos.map { it.toVideoStatisticsUpdate() }
 
         videoDao.updateVideoStatistics(videoStatisticsUpdates)
-    }
-
-    private fun schedulePeriodicStatisticsSync() {
-
     }
 }
