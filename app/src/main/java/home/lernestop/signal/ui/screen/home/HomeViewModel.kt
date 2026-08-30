@@ -12,7 +12,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import home.lernestop.signal.core.exception.SignalException
-import home.lernestop.signal.data.repo.SignalRepo
+import home.lernestop.signal.data.repo.SignalRepositoryImp
 import home.lernestop.signal.ui.mapper.toVideoUi
 import home.lernestop.signal.ui.navigation.StartRoute
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -34,7 +34,7 @@ const val TAG_VIEW_MODEL = "MainViewModel"
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val repo: SignalRepo,
+    private val repo: SignalRepositoryImp,
 ) : ViewModel() {
 
     // --- 1. STATE ---

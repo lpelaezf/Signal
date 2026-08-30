@@ -24,7 +24,7 @@ import java.util.Locale
 import javax.inject.Inject
 
 
-class SignalRepo @Inject constructor(
+class SignalRepositoryImp @Inject constructor(
     private val videoDao: VideoDao,
     private val youTubeApiService: YouTubeApiService,
     private val geminiApiService: GeminiApiService,

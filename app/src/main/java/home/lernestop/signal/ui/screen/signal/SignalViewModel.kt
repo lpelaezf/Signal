@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
 import home.lernestop.signal.data.local.projection.VideoSummaryWithSignal
-import home.lernestop.signal.data.repo.SignalRepo
+import home.lernestop.signal.data.repo.SignalRepositoryImp
 import home.lernestop.signal.ui.navigation.SignalRoute
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SignalViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val repo: SignalRepo,
+    private val repo: SignalRepositoryImp,
 ): ViewModel() {
 
     // --- 1. STATE ---

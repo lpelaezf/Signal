@@ -7,13 +7,13 @@ import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import home.lernestop.signal.core.exception.SignalException
-import home.lernestop.signal.data.repo.SignalRepo
+import home.lernestop.signal.data.repo.SignalRepositoryImp
 
 @HiltWorker
 class SyncVideoStatisticsWorker @AssistedInject constructor(
     @Assisted appContext: Context,
     @Assisted params: WorkerParameters,
-    private val repo: SignalRepo
+    private val repo: SignalRepositoryImp
 ) : CoroutineWorker(appContext, params) {
 
     override suspend fun doWork(): Result {
